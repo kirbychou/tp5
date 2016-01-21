@@ -51,18 +51,22 @@ public class SousClass {
             System.out.println("GraphicsObject: " + cl.getName());
         }
             System.out.println("__________");
-        List<Method> Methode = classeAbstraite();
+        List<Method> Methode = classeAbstraite("GraphicsObject");
         for (Method cl : Methode) {
             System.out.println( cl.getName());
         }
+        boolean res= complet("GraphicsObject");
 
+        if(res){
+            System.out.println("Toutes les méthodes sont implémentes dans la sous classe");
+        }
 
     }
 
-    public static List<Method> classeAbstraite() throws ClassNotFoundException {
+    public static List<Method> classeAbstraite(String nom) throws ClassNotFoundException {
 
-        String nom = pack + "GraphicsObject";
-        Class classe = Class.forName(nom);
+        String nom2 = pack + nom ;
+        Class classe = Class.forName(nom2);
         List<Method> methode = new ArrayList<>();
         if (Modifier.isAbstract(classe.getModifiers())) {
             Method[] champs = classe.getMethods();
@@ -77,5 +81,35 @@ public class SousClass {
             //System.out.println("la classe n'est pas abstraite");
         }
         return methode;
+    }
+
+    public static boolean complet(String nomClasse) throws ClassNotFoundException{
+
+        List<Method> methodesClassesAbstraites = classeAbstraite(nomClasse);
+
+        Class classeAVerifier = Class.forName(pack + "Triangle");
+        Method[] methodes = classeAVerifier.getMethods();
+
+        List<String> nomsMethodes = new ArrayList<>();
+        for(Method m : methodesClassesAbstraites){
+            nomsMethodes.add(m.getName());
+        }
+        System.out.println("---");
+
+        List<String> methodeAutreFonction = new ArrayList<>();
+        for(Method m : methodes){
+                methodeAutreFonction.add(m.getName());
+        }
+
+        boolean complet = true;
+        for(String s: methodeAutreFonction){
+            if(methodeAutreFonction.indexOf(s) == -1){
+                complet = false;
+
+            }
+        }
+
+
+        return complet;
     }
 }
