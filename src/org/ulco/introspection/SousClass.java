@@ -2,8 +2,10 @@ package org.ulco.introspection;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +63,7 @@ public class SousClass {
             System.out.println("Toutes les méthodes sont implémentes dans la sous classe");
         }
 
+        question4(rep);
     }
 
     public static List<Method> classeAbstraite(String nom) throws ClassNotFoundException {
@@ -111,5 +114,23 @@ public class SousClass {
 
 
         return complet;
+    }
+
+
+    public static void question4(List<String>  nomClasse)throws ClassNotFoundException{
+        List<Class> sousClasses = SousClass.creationListe(nomClasse);
+
+        for(Class c : sousClasses){
+            Constructor[] constructors = c.getConstructors();
+            for(Constructor cons : constructors){
+                System.out.println(cons);
+
+                Parameter[] paramaters = cons.getParameters();
+                for(Parameter p : paramaters){
+                    System.out.println(p);
+                }
+            }
+        }
+
     }
 }
