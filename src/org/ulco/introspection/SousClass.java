@@ -2,6 +2,8 @@ package org.ulco.introspection;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import java.util.List;
  */
 public class SousClass {
     Class lesClasses;
+   static String pack = "org.ulco.";
 
     public SousClass(String lesClasses) throws ClassNotFoundException {
         this.lesClasses = Class.forName(lesClasses);
@@ -47,7 +50,32 @@ public class SousClass {
         for (Class cl : sousClasse) {
             System.out.println("GraphicsObject: " + cl.getName());
         }
+            System.out.println("__________");
+        List<Method> Methode = classeAbstraite();
+        for (Method cl : Methode) {
+            System.out.println( cl.getName());
+        }
 
 
+    }
+
+    public static List<Method> classeAbstraite() throws ClassNotFoundException {
+
+        String nom = pack + "GraphicsObject";
+        Class classe = Class.forName(nom);
+        List<Method> methode = new ArrayList<>();
+        if (Modifier.isAbstract(classe.getModifiers())) {
+            Method[] champs = classe.getMethods();
+            for (Method m : champs) {
+                if (Modifier.isAbstract(m.getModifiers())) {
+                   // System.out.println("\t" + m.getName());
+                    methode.add(m);
+                }
+
+            }
+        } else {
+            //System.out.println("la classe n'est pas abstraite");
+        }
+        return methode;
     }
 }
